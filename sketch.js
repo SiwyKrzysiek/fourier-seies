@@ -6,8 +6,11 @@ let radius = 100;
 let pointR = radius;
 let pointFi = 0;
 
+let running = true;
+
 function setup() {
     createCanvas(canvasWidth, canvasHeight).parent("sketch");
+    document.getElementById("play").onclick = togglePlay;
 }
 
 function draw() {
@@ -28,4 +31,21 @@ function draw() {
 
     pointFi += 0.01;
 
+}
+
+function togglePlay(mouseEvent) {
+    let icon = document.getElementById("playIcon");
+
+    if (running) {
+        noLoop();
+        running = false;
+        icon.classList.remove("fa-pause");
+        icon.classList.add("fa-play");
+    }
+    else {
+        loop();
+        running = true;
+        icon.classList.add("fa-pause");
+        icon.classList.remove("fa-play");
+    }
 }
