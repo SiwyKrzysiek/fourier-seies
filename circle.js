@@ -10,11 +10,11 @@ class Circle {
     }
 
     get pointX() {
-        return this.radius * Math.cos(this.pointAngle);
+        return this.x + this.radius * Math.cos(this.pointAngle);
     }
 
     get pointY() {
-        return this.radius * Math.sin(this.pointAngle);
+        return this.y + this.radius * Math.sin(this.pointAngle);
     }
 
     update() {
@@ -25,6 +25,8 @@ class Circle {
         noFill();
         stroke(255);
         circle(this.x, this.y, this.radius * 2);
+
+        line(this.x, this.y, this.pointX, this.pointY);
 
         fill(255);
         circle(this.pointX, this.pointY, this.radius / 20);
