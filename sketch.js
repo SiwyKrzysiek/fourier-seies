@@ -7,15 +7,17 @@ let pointR = radius;
 let pointFi = 0;
 
 let running = true;
+let fourier = new SquareWaveFourier(0, 0, 2);
 
 function setup() {
     createCanvas(canvasWidth, canvasHeight).parent("sketch");
+
     document.getElementById("play").onclick = togglePlay;
+    document.getElementById("amountOfCircles").oninput = changeCircleAmount;
 }
 
 // let myCircle1 = new Circle(0, 0, 100, 1);
 // let myCircle2 = new Circle(myCircle1.pointX, myCircle1.pointY, 100/3, 3)
-let fourier = new SquareWaveFourier(0, 0, 2);
 
 let plot = [];
 
@@ -47,6 +49,11 @@ function draw() {
 
     if (plot.length > 200)
         plot.pop();
+}
+
+function changeCircleAmount(event) {
+    // console.log(event.target.value);
+    fourier.changeCircleAmount(event.target.value)
 }
 
 function togglePlay(mouseEvent) {
