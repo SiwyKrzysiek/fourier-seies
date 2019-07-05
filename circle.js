@@ -1,12 +1,12 @@
 class Circle {
-    constructor(x, y, radius, speed) {
-        this.pointAngle = 0;
-        this.slowdown = 0.01;
+    constructor(x, y, radius, speed, pointAngle = 0, dt = 0.01) {
+        this.pointAngle = pointAngle;
 
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.speed = speed;
+        this.dt = dt;
     }
 
     get pointX() {
@@ -18,7 +18,7 @@ class Circle {
     }
 
     update() {
-        this.pointAngle += this.speed * this.slowdown;
+        this.pointAngle += this.speed * this.dt;
     }
 
     draw() {
@@ -28,7 +28,7 @@ class Circle {
 
         line(this.x, this.y, this.pointX, this.pointY);
 
-        fill(255);
-        circle(this.pointX, this.pointY, this.radius / 20);
+        // fill(255);
+        // circle(this.pointX, this.pointY, this.radius / 20);
     }
 }
