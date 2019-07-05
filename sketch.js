@@ -1,18 +1,19 @@
-let canvasWidth = 600;
-let canvasHeight = 400;
-
 let running = true;
-let fourier = new SquareWaveFourier(0, 0, 2);
+let fourier;
 
 function setup() {
     let containerWidth = document.getElementById("sketch").offsetWidth;
     canvasHeight = containerWidth * 0.5;
 
-    console.log(document.getElementById("sketch").offsetHeight, document.getElementById("sketch").offsetWidth);
-
     createCanvas(containerWidth, canvasHeight).parent("sketch");
 
-    console.log(document.getElementById("sketch").offsetHeight, document.getElementById("sketch").offsetWidth);
+    let fourierX = width * 0.3;
+    let fourierY = height / 2;
+    let dt = 0.01;
+    let startingCircles = document.getElementById("amountOfCircles").value;
+    let size = height * 0.25;
+    fourier = new SquareWaveFourier(fourierX, fourierY, startingCircles, dt, size);
+
 
     document.getElementById("play").onclick = togglePlay;
     document.getElementById("amountOfCircles").oninput = changeCircleAmount;
@@ -26,7 +27,7 @@ let plot = [];
 function draw() {
     background(51);
 
-    translate(canvasWidth / 2 - 120, canvasHeight / 2);
+    // translate(width / 2 - 120, height / 2);
     
     // myCircle1.draw();
     // myCircle1.update();
@@ -42,14 +43,14 @@ function draw() {
     plot.unshift(fourier.finalY);
     fourier.update();
 
-    translate(220, 0);
+    translate(width * 0.7, 0);
     beginShape();
     for (let i = 0; i < plot.length; i++ ) {
         vertex(i, plot[i]);
     }
     endShape();
 
-    if (plot.length > 200)
+    if (plot.length > 700)
         plot.pop();
 }
 
