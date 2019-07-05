@@ -1,16 +1,18 @@
 let canvasWidth = 600;
 let canvasHeight = 400;
 
-let radius = 100;
-// Rotating point
-let pointR = radius;
-let pointFi = 0;
-
 let running = true;
 let fourier = new SquareWaveFourier(0, 0, 2);
 
 function setup() {
-    createCanvas(canvasWidth, canvasHeight).parent("sketch");
+    let containerWidth = document.getElementById("sketch").offsetWidth;
+    canvasHeight = containerWidth * 0.5;
+
+    console.log(document.getElementById("sketch").offsetHeight, document.getElementById("sketch").offsetWidth);
+
+    createCanvas(containerWidth, canvasHeight).parent("sketch");
+
+    console.log(document.getElementById("sketch").offsetHeight, document.getElementById("sketch").offsetWidth);
 
     document.getElementById("play").onclick = togglePlay;
     document.getElementById("amountOfCircles").oninput = changeCircleAmount;
@@ -72,3 +74,11 @@ function togglePlay(mouseEvent) {
         icon.classList.remove("fa-play");
     }
 }
+
+function windowResized() {
+    let containerWidth = document.getElementById("sketch").offsetWidth;
+    canvasHeight = containerWidth * 0.5;
+    resizeCanvas(containerWidth, canvasHeight);
+
+    console.log(width, height);
+  }
