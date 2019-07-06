@@ -35,16 +35,33 @@
 <body>
   <div class="container">
     <div class="row">
-      <p class="mx-auto">Text</p>
+      <h1 class="mx-auto">Fourier series simulation</h1>
       <div id="sketch"></div>
     </div>
-    <div class="mx-auto" id="controls">
-      <button type="button" class="btn btn-primary" id="play">
-        <i class="fa fa-pause" id="playIcon"></i>
-      </button>
+    <div class="row">
+      <div class="collapse" id="additionalDescription">
+        <div class="card card-body">
+          Very descriptive and eloquent description of how fourier series works and why it's super cool.
+        </div>
+      </div>
+    </div>
+    <div id="controls" class="mt-2">
 
-      <label for="customRange2">Amount of circles</label>
-      <input type="range" class="custom-range" min="1" max="20" id="amountOfCircles" value="2">
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <button type="button" class="btn btn-primary mr-1" id="play">
+              <i class="fa fa-pause" id="playIcon"></i>
+            </button>
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#additionalDescription"
+              aria-expanded="false" aria-controls="additionalDescription">
+              <i class="fa fa-info"></i>
+            </button>
+      </div>
+      
+
+      <div class="input-group mb-3">
+        <label for="customRange2">Amount of circles</label>
+        <input type="range" class="custom-range" min="1" max="20" id="amountOfCircles" value="2">
+      </div>
     </div>
   </div>
 </body>
