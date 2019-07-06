@@ -1,5 +1,6 @@
 let running = true;
 let fourier;
+let plot = [];
 
 function setup() {
     let containerWidth = document.getElementById("sketch").offsetWidth;
@@ -7,13 +8,7 @@ function setup() {
 
     createCanvas(containerWidth, canvasHeight).parent("sketch");
 
-    let fourierX = width * 0.3;
-    let fourierY = height / 2;
-    let dt = 0.01;
-    let startingCircles = document.getElementById("amountOfCircles").value;
-    let size = height * 0.25;
-    fourier = new SquareWaveFourier(fourierX, fourierY, startingCircles, dt, size);
-
+    initializeFourier();
 
     document.getElementById("play").onclick = togglePlay;
     document.getElementById("amountOfCircles").oninput = changeCircleAmount;
@@ -22,7 +17,6 @@ function setup() {
 // let myCircle1 = new Circle(0, 0, 100, 1);
 // let myCircle2 = new Circle(myCircle1.pointX, myCircle1.pointY, 100/3, 3)
 
-let plot = [];
 
 function draw() {
     background(51);
@@ -54,6 +48,18 @@ function draw() {
         plot.pop();
 }
 
+function initializeFourier() {
+    let fourierX = width * 0.3;
+    let fourierY = height / 2;
+    let dt = 0.01;
+    let startingCircles = document.getElementById("amountOfCircles").value;
+    let size = height * 0.25;
+    let t = fourier ? fourier.t : 0;
+
+    console.log(t);
+    fourier = new SquareWaveFourier(fourierX, fourierY, startingCircles, dt, size, t);
+}
+
 function changeCircleAmount(event) {
     // console.log(event.target.value);
     fourier.changeCircleAmount(event.target.value)
@@ -81,5 +87,6 @@ function windowResized() {
     canvasHeight = containerWidth * 0.5;
     resizeCanvas(containerWidth, canvasHeight);
 
-    console.log(width, height);
+    initializeFourier();
+    plot = [];
   }

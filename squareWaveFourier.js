@@ -3,13 +3,13 @@ Array.prototype.last = function() {
 }
 
 class SquareWaveFourier {
-    constructor(x, y, n = 1, dt = 0.01, baseRadius = 100) {
+    constructor(x, y, n = 1, dt = 0.01, baseRadius = 100, t = 0) {
         this.x = x;
         this.y = y;
         this.dt = dt;
         this.baseRadius = baseRadius;
 
-        this.t = 0;
+        this.t = t;
         this.circles = [];
 
         this.changeCircleAmount(n);
