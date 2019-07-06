@@ -12,6 +12,7 @@ function setup() {
 
     document.getElementById("play").onclick = togglePlay;
     document.getElementById("amountOfCircles").oninput = changeCircleAmount;
+    document.addEventListener('visibilitychange', handleVisibilityChange, false);
 }
 
 // let myCircle1 = new Circle(0, 0, 100, 1);
@@ -21,31 +22,71 @@ function setup() {
 function draw() {
     background(51);
 
-    // translate(width / 2 - 120, height / 2);
-    
-    // myCircle1.draw();
-    // myCircle1.update();
-
-    // myCircle2.x = myCircle1.pointX;
-    // myCircle2.y = myCircle1.pointY;
-    // myCircle2.draw();
-    // myCircle2.update();
-
-    // plot.unshift(myCircle2.pointY);
-
     fourier.draw();
-    plot.unshift(fourier.finalY);
-    fourier.update();
 
     translate(width * 0.7, 0);
+    drawPlot();
+
+    fourier.update();
+    updatePlot();
+}
+
+function updatePlot() {
+    plot.unshift(fourier.finalY);
+
+    if (plot.length > 700)
+        plot.pop();
+}
+
+function drawPlot() {
     beginShape();
-    for (let i = 0; i < plot.length; i++ ) {
+    for (let i = 0; i < plot.length; i++) {
         vertex(i, plot[i]);
     }
     endShape();
 
-    if (plot.length > 700)
-        plot.pop();
+    // if (plot.length < 2)
+    //     return;
+
+    // translate(0, height / 2);
+
+    // let size = height * 0.25;
+    // let amplitude = size;
+    // let length = 70;
+    // let lastX = 0;
+    // let lastY = amplitude;
+
+    // let from = fourier.t;
+    // let to = fourier.t + plot.length;
+    // let pointInTime = fourier.t % length;
+    // if (pointInTime > length / 2) //Point is in the down part of square wave
+    //     lastY *= -1;
+
+    // let finishDistance = min(length / 2 - pointInTime, plot.length);
+    // dashedLine(lastX, lastY, finishDistance, lastY);
+    // lastX = finishDistance;
+
+    // for (let i = finishDistance + length; i <= plot.length; i += length) {
+    //     let newX = i;
+    //     let newY = -lastY;
+
+    //     dashedLine(lastX, lastY, lastX, newY);
+    //     dashedLine(lastX, newY, newX, newY);
+
+    //     [lastX, lastY] = [newX, newY];
+    // }
+
+    // for (let i = length; i < plot.length; i += length) {
+    //     let newX = i;
+    //     let newY = -lastY;
+
+    //     dashedLine(lastX, lastY, newX, lastY);
+    //     dashedLine(newX, lastY, newX, newY);
+
+    //     [lastX, lastY] = [newX, newY];
+    // }
+
+
 }
 
 function initializeFourier() {
@@ -89,4 +130,76 @@ function windowResized() {
 
     initializeFourier();
     plot = [];
-  }
+}
+
+function dashedLine(x1, y1, x2, y2, g = 5, l = 1, ) {
+    if (x1 == x2 && y1 == y2)
+        return;
+
+    var pc = dist(x1, y1, x2, y2) / 100;
+    var pcCount = 1;
+    var lPercent = gPercent = 0;
+    var currentPos = 0;
+    var xx1 = yy1 = xx2 = yy2 = 0;
+
+    while (int(pcCount * pc) < l) {
+        pcCount++
+    }
+    lPercent = pcCount;
+    pcCount = 1;
+    while (int(pcCount * pc) < g) {
+        pcCount++
+    }
+    gPercent = pcCount;
+
+    lPercent = lPercent / 100;
+    gPercent = gPercent / 100;
+    while (currentPos < 1) {
+        xx1 = lerp(x1, x2, currentPos);
+        yy1 = lerp(y1, y2, currentPos);
+        xx2 = lerp(x1, x2, currentPos + lPercent);
+        yy2 = lerp(y1, y2, currentPos + lPercent);
+        if (x1 > x2) {
+            if (xx2 < x2) {
+                xx2 = x2;
+            }
+        }
+        if (x1 < x2) {
+            if (xx2 > x2) {
+                xx2 = x2;
+            }
+        }
+        if (y1 > y2) {
+            if (yy2 < y2) {
+                yy2 = y2;
+            }
+        }
+        if (y1 < y2) {
+            if (yy2 > y2) {
+                yy2 = y2;
+            }
+        }
+
+        line(xx1, yy1, xx2, yy2);
+        currentPos = currentPos + lPercent + gPercent;
+    }
+}
+
+let autoPaused = false;
+
+// Handle page visibility change events
+function handleVisibilityChange() {
+    if (document.visibilityState == "hidden") {
+        if (running) {
+            noLoop();
+            running = false;
+            autoPaused = true;
+        }
+    } else {
+        if (autoPaused) {
+            loop();
+            running = true;
+            autoPaused = false;
+        }
+    }
+}
